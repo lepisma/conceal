@@ -1,3 +1,25 @@
 #+TITLE: conceal
 
-Concealing private views while sharing screen.
+Don't you hate when people accidentally get to see your precious private content
+while you screen share? Don't you get nightmares realizing that the meeting was
+being recorded?
+
+Conceal helps you hide private views while sharing screen in this era of remote
+work.
+
+* Emacs
+For emacs, there is a global minor mode in =conceal.el= that hides buffers of your
+choice. The default behavior is to hide =.gpg= buffers but can be changed.
+
+Here is a screen showing my concealed medical journal.
+
+[[file:./screen.png]]
+
+* X11
+/Under development/
+
+* Firefox
+/Under development/
+
+* ...
+/Under development/
