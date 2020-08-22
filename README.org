@@ -8,8 +8,16 @@ Conceal helps you hide private views while sharing screen in this era of remote
 work.
 
 ** Emacs
-For emacs, there is a global minor mode in =conceal.el= that hides buffers of your
-choice. The default behavior is to hide =.gpg= buffers but can be changed.
+For emacs, there is a minor mode in =conceal.el= that conceals the buffer in which
+it is enabled. Here is an example config:
+
+#+begin_src emacs-lisp
+  ;; Enable conceal mode on .org.gpg files
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (when (conceal-buffer-gpg-p (current-buffer))
+                (conceal-mode 1))))
+#+end_src
 
 Here is a screen showing my concealed medical journal.
 
