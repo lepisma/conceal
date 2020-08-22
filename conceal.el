@@ -40,9 +40,11 @@ is active.")
   "Buffer local variable holding the line overlays.")
 
 (defun conceal-buffer-gpg-p (buffer)
+  "Tell if the current buffer is gpg encrypted."
   (s-ends-with-p ".gpg" (buffer-file-name buffer)))
 
 (defun conceal-text (text)
+  "Return string with graphical characters replaced with blocks."
   (s-replace-regexp "[[:graph:]]" "▃" text))
 
 (defun conceal-current-line ()
@@ -54,6 +56,7 @@ is active.")
     ov))
 
 (defun conceal-current-buffer ()
+  "Place overlays to conceal content of current buffer."
   (let ((ovs))
     (save-excursion
       (dotimes (i (count-lines (point-min) (point-max)))
@@ -61,28 +64,20 @@ is active.")
         (push (conceal-current-line) ovs)))
     (setq conceal-overlays ovs)))
 
-(defun conceal-clear-buffer ()
+(defun conceal-reveal-current-buffer ()
+  "Clear conceal overlays from current buffer and reveal the
+content."
   (dolist (ov conceal-overlays)
     (delete-overlay ov))
   (setq conceal-overlays nil))
 
-(defun conceal-mode-enable ()
-  (dolist (buffer (buffer-list))
-    (when (funcall conceal-buffer-p buffer)
-      (with-current-buffer buffer
-        (conceal-current-buffer)))))
-
-(defun conceal-mode-disable ()
-  (dolist (buffer (buffer-list))
-    (with-current-buffer buffer
-      (conceal-clear-buffer))))
-
 ;;;###autoload
 (define-minor-mode conceal-mode
-  "Minor mode to hide content from specific buffers."
+  "Minor mode to conceal buffer content."
   :init-value nil
-  :global t
-  (if conceal-mode (conceal-mode-enable) (conceal-mode-disable)))
+  (if conceal-mode
+      (conceal-current-buffer)
+    (conceal-reveal-current-buffer)))
 
 (provide 'conceal)
 
